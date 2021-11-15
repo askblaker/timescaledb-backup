@@ -1,0 +1,24 @@
+name: build-test
+
+on: 
+  push:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: build image
+      run: docker-compose build timescaledb-backup
+    - name: Lint with flake8
+      run: docker-compose run --rm timescaledb-backup poetry run flake8 .
+    - name: Run black
+      run: docker-compose run --rm timescaledb-backup poetry run black .
+    - name: Run isort
+      run: docker-compose run --rm timescaledb-backup poetry run isort .
+    - name: Start containers
+      run: docker-compose -f ./docker-compose.yml up -d timescaledb postgres_12 postgres_13 minio
+    - name: Check running containers
+      run: docker ps -a
+    - name: Run test
+      run: docker-compose -f ./docker-compose.yml run --rm timescaledb-backup poetry run pytest --cov=app tests/ 

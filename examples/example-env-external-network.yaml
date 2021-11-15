@@ -1,0 +1,36 @@
+version: "3"
+services:
+  timescaledb:
+    image: timescale/timescaledb-postgis:2.1.0-pg12
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+
+  minio:
+    image: minio/minio
+    command: server /data
+    ports:
+      - "9000:9000"
+
+  timescaledb-backup:
+    #image: askblaker/timescaledb-backup
+    image: tb:latest
+    volumes:
+      - timescaledb-backup:/app/backups
+    container_name: tsdbackup
+    env_file: .env.example
+    volumes:
+      - "./test:/app/backups"
+    networks:
+      - mynet
+
+volumes:
+  timescaledb-backup:
+
+networks:
+  mynet:
+    external: true
+
+# Requires that network mynet is created first
+# docker network create mynet

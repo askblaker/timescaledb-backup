@@ -1,0 +1,38 @@
+FROM python:3.8-slim-buster
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app/
+
+RUN apt-get -y update && \
+    apt-get -y upgrade && \
+    apt-get -y dist-upgrade
+
+RUN apt-get -y install curl ca-certificates gnupg \ 
+    && curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
+    && sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+
+RUN apt-get update \
+    && apt-get -y install postgresql-client-12 \
+    && apt-get -y install postgresql-client-13
+
+RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | POETRY_HOME=/opt/poetry python && \
+    cd /usr/local/bin && \
+    ln -s /opt/poetry/bin/poetry && \
+    poetry config virtualenvs.create false
+
+COPY ./app/pyproject.toml ./app/poetry.lock* ./
+
+RUN poetry install --no-root
+
+COPY ./app ./
+
+RUN chmod +x ./entrypoint.sh
+
+RUN mkdir backups
+
+RUN ls -l
+
+CMD ["./entrypoint.sh"]
+
