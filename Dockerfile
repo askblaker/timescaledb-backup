@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.11-slim-buster
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
@@ -15,7 +15,9 @@ RUN apt-get -y install curl ca-certificates gnupg && \
 
 RUN apt-get update && \
     apt-get -y install postgresql-client-12 && \
-    apt-get -y install postgresql-client-13
+    apt-get -y install postgresql-client-13 && \
+    apt-get -y install postgresql-client-14 && \
+    apt-get -y install postgresql-client-15
 
 COPY ./app/requirements.txt ./
 

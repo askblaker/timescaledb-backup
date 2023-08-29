@@ -104,6 +104,12 @@ docker run --rm --network=mynet askblaker/timescaledb-backup \
 
 # Development
 
+## Freeze production requirements.txt  
+```sh
+# in ./app folder
+poetry export --without dev --format=requirements.txt > ./requirements.txt  
+```
+
 ## Build dev
 
 ```sh
@@ -119,7 +125,7 @@ docker build -t timescaledb-backup .
 ## Run tests
 
 ```sh
-docker-compose up -d minio timescaledb postgres_12 postgres_13
+docker-compose up -d minio timescaledb postgres_12 postgres_13 postgres_14 postgres_15
 docker-compose run --rm timescaledb-backup pytest --cov=app --cov-report=html
 ```
 
