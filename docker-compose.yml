@@ -21,8 +21,22 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mydb
 
+  postgres_14:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+
+  postgres_15:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+
   minio:
-    image: minio/minio
+    image: minio/minio:RELEASE.2021-11-24T23-19-33Z
     command: server /data
     ports:
       - "9000:9000"
