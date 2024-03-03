@@ -6,7 +6,7 @@
 4. Progressive and configurable storage schema
 5. Restore to timescaledb or vanilla postgres
 6. Restore with multiple workers for high speed
-7. Supports postgres 12 and 13 and timescaledb 2.0 +
+7. Supports postgres 12, 13, 14, 15 and timescaledb 2.0 +
 
 # Examples
 
@@ -18,11 +18,12 @@ Se more examples in the examples files in the repo.
 
 ```sh
 docker volume create timescaledb-backups
-docker run -v timescaledb-backups:/app/backups askblaker/timescaledb-backup:0.1.0 \
+docker run -v timescaledb-backups:/app/backups \
 -e POSTGRES_HOST=postgres.your.host.com \
 -e POSTGRES_USER=your_postgres_username \
 -e POSTGRES_DB=your_postgres_db_name \
--e MODE=daily_15_30
+-e MODE=daily_15_30 \
+askblaker/timescaledb-backup:0.1.0
 ```
 
 ### docker-compose
@@ -55,26 +56,28 @@ volumes:
 ```sh
 mkdir my-host-dir
 chmod 777 -R my-host-dir
-docker run --rm -v ./my-host-dir:/app/backups askblaker/timescaledb-backup \
+docker run --rm -v ./my-host-dir:/app/backups \
 -e POSTGRES_HOST=postgres.your.host.com \
 -e POSTGRES_USER=your_postgres_username \
 -e POSTGRES_DB=your_postgres_db_name \
 -e MODE=run_single_backup
+askblaker/timescaledb-backup
 ```
 
 ## Restore from s3 bucket
 
 ```bash
-docker run --rm --network=mynet askblaker/timescaledb-backup \
+docker run --rm --network=mynet \
 -e POSTGRES_HOST=tsdb
 -e POSTGRES_USER=postgres
--e POSTGRES_DB=cemit
--e S3_ENDPOINT=minio.cemit.digital
--e S3_ACCESS_KEY=minioadmin
--e S3_SECRET_KEY=minioadmin
+-e POSTGRES_DB=your_db
+-e S3_ENDPOINT=your.host.com
+-e S3_ACCESS_KEY=verysecretaccesskey
+-e S3_SECRET_KEY=verysecretsecretkey
 -e S3_SECURE=true
 -e RESTORE_OVERWRITE=true
 -e MODE=restore_latest_local_file
+askblaker/timescaledb-backup
 ```
 
 ## Environment variables
