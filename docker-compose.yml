@@ -35,6 +35,20 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mydb
 
+  postgres_16:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+  
+  postgres_17:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+
   minio:
     image: minio/minio:RELEASE.2021-11-24T23-19-33Z
     command: server /data

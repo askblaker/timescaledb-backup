@@ -333,7 +333,6 @@ def upload_file_to_s3_bucket(
     secure=config["S3_SECURE"],
     bucket_name=config["S3_BUCKET_NAME"],
 ):
-
     if minio_client.bucket_exists(bucket_name):
         pass
     else:
@@ -354,7 +353,6 @@ def list_files_in_s3_bucket_desc(
     secure=config["S3_SECURE"],
     bucket_name=config["S3_BUCKET_NAME"],
 ):
-
     file_list = []
     objects = minio_client.list_objects(bucket)
     for obj in objects:
@@ -370,7 +368,6 @@ def prune_old_s3_files_except(
     secure=config["S3_SECURE"],
     bucket_name=config["S3_BUCKET_NAME"],
 ):
-
     if minio_client.bucket_exists(bucket_name):
         pass
     else:
@@ -489,7 +486,6 @@ def get_keep_file_list(
     keep_last_weeks=config["KEEP_LAST_WEEKS"],
     keep_last_months=config["KEEP_LAST_MONTHS"],
 ):
-
     df = get_file_info_dataframe(
         filenames=filenames,
         keep_last_hours=keep_last_hours,
