@@ -1,4 +1,4 @@
-FROM python:3.11-slim-buster
+FROM python:3.9-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
@@ -9,15 +9,18 @@ RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get -y dist-upgrade
 
-RUN apt-get -y install curl ca-certificates gnupg \ 
+RUN apt-get -y install curl ca-certificates gnupg \
     && curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-    && sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+    && sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 
-RUN apt-get update \
-    && apt-get -y install postgresql-client-12 \
-    && apt-get -y install postgresql-client-13 \
-    && apt-get -y install postgresql-client-14 \
-    && apt-get -y install postgresql-client-15 
+RUN apt-get update
+
+RUN apt-get -y install postgresql-client-12
+RUN apt-get -y install postgresql-client-13
+RUN apt-get -y install postgresql-client-14
+RUN apt-get -y install postgresql-client-15
+RUN apt-get -y install postgresql-client-16
+RUN apt-get -y install postgresql-client-17
 
 RUN pip install poetry==1.6.1
 RUN poetry config virtualenvs.create false

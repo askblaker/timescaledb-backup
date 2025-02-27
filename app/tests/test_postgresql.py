@@ -7,7 +7,7 @@ from app import main
 from app.tests import pg_utils, utils
 
 
-@pytest.mark.parametrize("postgres_version", ["12", "13", "14", "15"])
+@pytest.mark.parametrize("postgres_version", ["12", "13", "14", "15", "16", "17"])
 def test_run_backup_job_pg_x(monkeypatch, postgres_version):
     monkeypatch.setenv("POSTGRES_HOST", f"postgres_{postgres_version}")
     monkeypatch.setenv("TIMESCALE", "false")
