@@ -6,7 +6,7 @@
 4. Progressive and configurable storage schema
 5. Restore to timescaledb or vanilla postgres
 6. Restore with multiple workers for high speed
-7. Supports postgres 12, 13, 14, 15 and timescaledb 2.0 +
+7. Supports postgres 12, 13, 14, 15, 16, 17 and timescaledb 2.0+
 
 # Examples
 
