@@ -109,13 +109,11 @@ def get_timescale_version(
 ):
     with get_psycopg2_conn(host=host, port=port, user=user, password=password) as pg_conn:
         with pg_conn.cursor() as cur:
-            cur.execute(
-                """
+            cur.execute("""
                 SELECT installed_version  
                 FROM pg_available_extensions
                 WHERE name = 'timescaledb';
-                """  # noqa: W291
-            )
+                """)  # noqa: W291
             result = cur.fetchone()
             if result is not None:
                 return result[0]

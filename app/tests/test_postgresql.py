@@ -7,7 +7,7 @@ from app import main
 from app.tests import pg_utils, utils
 
 
-@pytest.mark.parametrize("postgres_version", ["12", "13", "14", "15", "16", "17"])
+@pytest.mark.parametrize("postgres_version", ["12", "13", "14", "15", "16", "17", "18"])
 def test_run_backup_job_pg_x(monkeypatch, postgres_version):
     monkeypatch.setenv("POSTGRES_HOST", f"postgres_{postgres_version}")
     monkeypatch.setenv("TIMESCALE", "false")
@@ -28,11 +28,9 @@ def test_run_backup_job_pg_x(monkeypatch, postgres_version):
 
     with main.get_psycopg2_conn() as pg_conn:
         with pg_conn.cursor() as cur:
-            cur.execute(
-                """
+            cur.execute("""
                 SELECT * FROM test_table;
-                """
-            )
+                """)
             result = cur.fetchone()
             assert result == (1, 2)
     pg_utils.delete_demo_data()

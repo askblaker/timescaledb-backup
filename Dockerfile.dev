@@ -1,7 +1,9 @@
-FROM python:3.9-slim-bookworm
+FROM python:3.12-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    UV_PROJECT_ENVIRONMENT=/opt/venv \
+    PATH=/opt/venv/bin:$PATH
 
 WORKDIR /app/
 
@@ -21,13 +23,13 @@ RUN apt-get -y install postgresql-client-14
 RUN apt-get -y install postgresql-client-15
 RUN apt-get -y install postgresql-client-16
 RUN apt-get -y install postgresql-client-17
+RUN apt-get -y install postgresql-client-18
 
-RUN pip install poetry==1.6.1
-RUN poetry config virtualenvs.create false
+RUN pip install uv
 
-COPY ./app/pyproject.toml ./app/poetry.lock* ./
+COPY ./app/pyproject.toml ./app/uv.lock ./
 
-RUN poetry install --no-interaction
+RUN uv sync --frozen
 
 COPY ./app ./
 

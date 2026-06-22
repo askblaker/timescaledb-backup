@@ -1,7 +1,9 @@
-FROM python:3.9-slim-bookworm
+FROM python:3.12-slim-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    UV_PROJECT_ENVIRONMENT=/opt/venv \
+    PATH=/opt/venv/bin:$PATH
 
 WORKDIR /app/
 
@@ -21,11 +23,13 @@ RUN apt-get -y install postgresql-client-14
 RUN apt-get -y install postgresql-client-15
 RUN apt-get -y install postgresql-client-16
 RUN apt-get -y install postgresql-client-17
+RUN apt-get -y install postgresql-client-18
 
-COPY ./app/requirements.txt ./
+RUN pip install uv
 
-RUN pip install --no-cache-dir -r /app/requirements.txt && \
-    rm requirements.txt
+COPY ./app/pyproject.toml ./app/uv.lock ./
+
+RUN uv sync --frozen --no-dev
 
 COPY ./app/main.py ./app/entrypoint.sh ./
 RUN chmod +x ./entrypoint.sh

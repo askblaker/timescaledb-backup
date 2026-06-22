@@ -21,3 +21,4 @@ cover/
 backups/
 .vscode
 .vscode/
+.venv/

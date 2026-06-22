@@ -28,18 +28,14 @@ def test_run_backup_job():
 
     with main.get_psycopg2_conn() as pg_conn:
         with pg_conn.cursor() as cur:
-            cur.execute(
-                """
+            cur.execute("""
                 SELECT * FROM test_table;
-                """
-            )
+                """)
             result = cur.fetchone()
             assert result == (1, 2)
-            cur.execute(
-                """
+            cur.execute("""
                 DROP TABLE test_table;
-                """
-            )
+                """)
     utils.delete_all_files_from_backup_folder()
 
 
